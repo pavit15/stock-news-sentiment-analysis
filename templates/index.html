@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stock News Sentiment Analysis</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .filter-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        select, button {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+            padding: 20px;
+            max-width: 1200px;
+            margin: auto;
+        }
+        .news-box {
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .news-box:hover {
+            transform: translateY(-5px);
+        }
+        .news-header {
+            margin: 0;
+            font-size: 1.2em;
+            color: #333;
+        }
+        .news-time {
+            font-size: 0.9em;
+            color: #555;
+            margin: 5px 0 15px;
+        }
+        .news-description {
+            margin: 10px 0;
+            font-size: 0.95em;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter-container">
+        <select id="stock-select" multiple class="chosen-select">
+            <option value="All Stocks" selected>All Stocks</option>
+            {% for stock in stock_symbols %}
+            <option value="{{ stock }}">{{ stock }}</option>
+            {% endfor %}
+        </select>
+        <select id="sentiment-filter">
+            <option value="Any">Any Sentiment</option>
+            <option value="Surely Positive">Surely Positive</option>
+            <option value="Positive">Positive</option>
+            <option value="Slightly Positive">Slightly Positive</option>
+            <option value="Less Positive">Less Positive</option>
+            <option value="Neutral">Neutral</option>
+            <option value="Slightly Negative">Slightly Negative</option>
+            <option value="Negative">Negative</option>
+            <option value="Surely Negative">Surely Negative</option>
+        </select>
+        <select id="trader-filter">
+            <option value="Any">Any Trader Action</option>
+            <option value="Buy or Hold">Buy or Hold</option>
+            <option value="Buy">Buy</option>
+            <option value="Hold or Buy">Hold or Buy</option>
+            <option value="Hold or Sell">Hold or Sell</option>
+            <option value="Hold or Stay Neutral">Hold or Stay Neutral</option>
+            <option value="Sell or Avoid">Sell or Avoid</option>
+            <option value="Sell">Sell</option>
+            <option value="Sell Immediately">Sell Immediately</option>
+        </select>
+        <button onclick="applyFilters()">Apply Filters</button>
+    </div>
+    <div class="grid-container"></div>
+
+    <!-- Include jQuery before chosen.jquery.min.js -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
+    <script>
+        const stockSelect = document.getElementById('stock-select');
+        const sentimentFilter = document.getElementById('sentiment-filter');
+        const traderFilter = document.getElementById('trader-filter');
+
+        function loadArticles(articles) {
+            const container = document.querySelector('.grid-container');
+            container.innerHTML = '';
+            articles.forEach(article => {
+                const box = document.createElement('div');
+                box.classList.add('news-box');
+                box.style.backgroundColor = article.background_color; // Apply sentiment color
+                box.innerHTML = `
+                    <h3 class="news-header">${article.title}</h3>
+                    <div class="news-time">Published: ${formatDate(article.publishedAt)}</div>
+                    <p class="news-description">${article.description}</p>
+                `;
+                box.onclick = () => window.open(article.url, '_blank');
+                container.appendChild(box);
+            });
+        }
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = String(date.getDate()).padStart(2, '0');
+            const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+        }
+
+        function applyFilters() {
+            const selectedStocks = Array.from(stockSelect.selectedOptions).map(opt => opt.value);
+            const sentiment = sentimentFilter.value;
+            const traderAction = traderFilter.value;
+
+            // If "All Stocks" is selected, fetch all stocks
+            const stocksToFetch = selectedStocks.includes("All Stocks") ? [] : selectedStocks;
+
+            fetch('/filter-news', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ stocks: stocksToFetch, sentiment, trader_action: traderAction })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Sort articles by latest date
+                const sortedData = data.sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt));
+                loadArticles(sortedData);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            $(".chosen-select").chosen({ width: "200px" });
+            applyFilters(); // Load default news
+        });
+    </script>
+</body>
+</html>
