@@ -14,18 +14,16 @@ To process stock market news using **natural language understanding (NLP)** and 
 - Visualizing sentiment through color coded indicators
 
 ---
+## Dashboard Interface
 
-## Dashboard interface
-
-![All Stocks](https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/all%20stocks.jpg)  
+<img src="https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/all%20stocks.jpg" width="500"/>  
   **Displays the overall sentiment trends for all stocks analyzed.**
 
-![MSFT - Any Sentiment, Any Action](https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/msft%20any%20sent%20any%20action.jpg)  
+<img src="https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/msft%20any%20sent%20any%20action.jpg" width="500"/>  
   **Sentiment and trader action recommendations for Microsoft (MSFT) under various sentiment conditions.**
 
- ![Tesla - Positive Sentiment](https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/tesla%20positive.jpg)  
+<img src="https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/tesla%20positive.jpg" width="500"/>  
   **Positive sentiment analysis and recommended trading action for Tesla (TSLA).**
-
 
 ## Data Science Workflow Applied
 
