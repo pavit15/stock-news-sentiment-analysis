@@ -111,5 +111,3 @@ python app.py
 
 - **Additional Data Sources:**
   - Integrate multiple news sources for a more comprehensive sentiment analysis and broader coverage of stock market news.
-
-
