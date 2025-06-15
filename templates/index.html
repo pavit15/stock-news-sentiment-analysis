@@ -105,15 +105,12 @@
         <button onclick="applyFilters()">Apply Filters</button>
     </div>
     <div class="grid-container"></div>
-
-    <!-- Include jQuery before chosen.jquery.min.js -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js"></script>
     <script>
         const stockSelect = document.getElementById('stock-select');
         const sentimentFilter = document.getElementById('sentiment-filter');
         const traderFilter = document.getElementById('trader-filter');
-
         function loadArticles(articles) {
             const container = document.querySelector('.grid-container');
             container.innerHTML = '';
@@ -130,7 +127,6 @@
                 container.appendChild(box);
             });
         }
-
         function formatDate(dateString) {
             const date = new Date(dateString);
             const day = String(date.getDate()).padStart(2, '0');
@@ -138,15 +134,11 @@
             const year = date.getFullYear();
             return `${day}/${month}/${year}`;
         }
-
         function applyFilters() {
             const selectedStocks = Array.from(stockSelect.selectedOptions).map(opt => opt.value);
             const sentiment = sentimentFilter.value;
             const traderAction = traderFilter.value;
-
-            // If "All Stocks" is selected, fetch all stocks
             const stocksToFetch = selectedStocks.includes("All Stocks") ? [] : selectedStocks;
-
             fetch('/filter-news', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -159,7 +151,6 @@
                 loadArticles(sortedData);
             });
         }
-
         document.addEventListener('DOMContentLoaded', () => {
             $(".chosen-select").chosen({ width: "200px" });
             applyFilters(); // Load default news
