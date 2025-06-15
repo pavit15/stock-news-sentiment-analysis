@@ -54,7 +54,7 @@ To process stock market news using **natural language understanding (NLP)** and 
 | Data Mapping              | Custom Logic | Assign trader actions via thresholds   |
 | Real-Time Data Streaming  | `NewsAPI`   | Fetch external data for DS processing  |
 
-## 🧰 Tech Stack
+## Tech Stack
 - **Backend:** Python, Flask
 - **NLP / DS:** TextBlob
 - **API:** NewsAPI
