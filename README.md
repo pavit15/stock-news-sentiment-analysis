@@ -2,18 +2,14 @@
 
 A lightweight Flask application that integrates **news data**, **natural language processing**, and **sentiment analysis** to assist in stock market interpretation. This project applies data science techniques to analyze stock related news sentiment and generate trader friendly insights.
 
----
-
 ## Project Objective
 
 To process stock market news using **natural language understanding (NLP)** and assess their potential market impact by:
-
 - Extracting real time news from NewsAPI
 - Performing **sentiment polarity scoring** using `TextBlob`
 - Mapping scores to **interpretable trader actions** (e.g., Buy, Sell, Hold)
 - Visualizing sentiment through color coded indicators
 
----
 ## Dashboard Interface
 
 <img src="https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/all%20stocks.jpg" width="500"/>  
@@ -25,7 +21,7 @@ To process stock market news using **natural language understanding (NLP)** and 
 <img src="https://github.com/pavit15/stock-news-sentiment-analysis/blob/main/images/tesla%20positive.jpg" width="500"/>  
   Positive sentiment analysis and recommended trading action for Tesla (TSLA).
 
-## Data Science Workflow Applied
+## Project Workflow
 
 ### 1. **Data Acquisition**
 - Uses **NewsAPI** to fetch articles for major stock tickers like `AAPL`, `TSLA`, `GOOGL`, `MSFT`, etc.
@@ -50,10 +46,7 @@ To process stock market news using **natural language understanding (NLP)** and 
   - **Trader relevance** (Buy, Hold, Sell)
 - Frontend dynamically reflects these selections using Flask routes + JSON + AJAX.
 
----
-
-## Techniques Used
-
+## Libraries Used
 | Technique                 | Library     | Purpose                               |
 |--------------------------|-------------|----------------------------------------|
 | NLP Preprocessing         | `TextBlob`  | Extract polarity sentiment from text   |
@@ -61,17 +54,12 @@ To process stock market news using **natural language understanding (NLP)** and 
 | Data Mapping              | Custom Logic | Assign trader actions via thresholds   |
 | Real-Time Data Streaming  | `NewsAPI`   | Fetch external data for DS processing  |
 
----
-
 ## 🧰 Tech Stack
-
 - **Backend:** Python, Flask
 - **NLP / DS:** TextBlob
 - **API:** NewsAPI
 - **Frontend:** HTML, CSS, JS (AJAX)
 - **Deployment Ready:** Environment variables with `python-dotenv`
-
----
 
 ## How To Run
 
@@ -97,7 +85,6 @@ python app.py
 ```
 
 ## Future Enhancements 
-
 - **Advanced Sentiment Analysis:**
   - Incorporate more sophisticated NLP techniques, like `spaCy` or transformer models (e.g., BERT) for better sentiment accuracy.
   
